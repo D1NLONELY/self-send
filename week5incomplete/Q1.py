@@ -7,6 +7,8 @@ video_path = "./image_vid_resources/Cat.mp4"
 # Create a VideoCapture object
 cap = cv2.VideoCapture(video_path)
 
+# NIGGA
+
 if not cap.isOpened():
     print("Error: Could not open video.")
     exit()
