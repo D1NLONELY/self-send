@@ -3,38 +3,30 @@ import cv2 as cv
 from matplotlib import pyplot as plt
 import typing as tp
 
-# Load image
 image_path = "./image_vid_resources/Untitled.jpeg"
 image = cv.imread(image_path)
-
-# Display the original image
 cv.namedWindow("image")
 cv.imshow("image", image)
 cv.waitKey(0)
 cv.destroyAllWindows()
 
-# Convert to grayscale
 grey_image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 
-# Canny Edge Detection
 tl = 300
 th = 854
 canny_edges = cv.Canny(grey_image, tl, th)
 
-# Display Canny edges
 win_name = "hough"
 cv.namedWindow(win_name)
 cv.imshow(win_name, canny_edges)
 cv.waitKey(0)
 cv.destroyAllWindows()
 
-# Parameters for Hough Transform
 rho = 9
 theta = 0.261
 threshold = 101
 
 def hough_lines(edges: np.ndarray, threshold: float, min_theta: float, max_theta: float) -> np.ndarray:
-    # Initialize the accumulator matrix in polar coordinates
     diagonal = np.sqrt(edges.shape[0]**2 + edges.shape[1]**2)
     theta_angles = np.arange(min_theta, max_theta, theta)
     rho_values = np.arange(-diagonal, diagonal, rho)
@@ -42,11 +34,9 @@ def hough_lines(edges: np.ndarray, threshold: float, min_theta: float, max_theta
     num_rhos = len(rho_values)
     accumulator = np.zeros([num_rhos, num_thetas])
 
-    # Pre-compute sin and cos
     sins = np.sin(theta_angles)
     coss = np.cos(theta_angles)
 
-    # Find edge coordinates
     xs, ys = np.where(edges > 0)
 
     for x, y in zip(xs, ys):
@@ -55,7 +45,6 @@ def hough_lines(edges: np.ndarray, threshold: float, min_theta: float, max_theta
             rho_pos = np.argmin(np.abs(current_rho - rho_values))
             accumulator[rho_pos, t] += 1
 
-    # Extract lines based on accumulator threshold
     lines = np.argwhere(accumulator > threshold)
     rho_lines = rho_values[lines[:, 0]]
     theta_lines = theta_angles[lines[:, 1]]
@@ -84,10 +73,8 @@ def draw_lines(img: np.ndarray, lines: np.ndarray, color: tp.List[int] = [0, 0, 
 
     return new_image, mask_lines
 
-# Perform Hough Transform
 lines = hough_lines(canny_edges, threshold, -np.pi/2, np.pi/2)
 
-# Draw the detected lines on the image
 lines_img, mask = draw_lines(image, lines)
 cv.waitKey(0)
 cv.destroyAllWindows()
