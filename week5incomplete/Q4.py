@@ -16,7 +16,7 @@ def main():
     max_value = 255
     _, binary_image = cv2.threshold(gray_image, threshold_value, max_value, cv2.THRESH_BINARY)
 
-    output_path = 'binary_image_global.jpg'
+    output_path = './image_vid_resources/Bin_Img.jpeg'
     cv2.imwrite(output_path, binary_image)
     print(f"Binary image saved as {output_path}")
     
