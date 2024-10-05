@@ -7,6 +7,7 @@ let inputLayer = [];
 let hiddenLayers = [];
 let outputLayer = [];
 let numHiddenLayers = 0;
+let neuronsPerHiddenLayer = [];
 
 // Function to create layers and neurons
 function createNeuralNetwork() {
@@ -15,6 +16,12 @@ function createNeuralNetwork() {
 
     const inputValues = document.getElementById('inputValues').value.split(',').map(Number);
     numHiddenLayers = parseInt(document.getElementById('hiddenLayers').value);
+    
+    // User input for neurons in each hidden layer
+    for (let i = 0; i < numHiddenLayers; i++) {
+        const neurons = parseInt(prompt(`Enter number of neurons for hidden layer ${i + 1}:`));
+        neuronsPerHiddenLayer.push(neurons);
+    }
     
     // Create input layer
     const inputDiv = document.createElement('div');
@@ -26,13 +33,12 @@ function createNeuralNetwork() {
     });
     animationContainer.appendChild(inputDiv);
     
-    // Create hidden layers
+    // Create hidden layers based on user input
     for (let i = 0; i < numHiddenLayers; i++) {
         const hiddenDiv = document.createElement('div');
         hiddenDiv.className = 'layer';
         const hiddenLayer = [];
-        const numNeurons = 3; // Fixed number for simplicity
-        for (let j = 0; j < numNeurons; j++) {
+        for (let j = 0; j < neuronsPerHiddenLayer[i]; j++) {
             const neuron = createNeuron(0);
             hiddenLayer.push(neuron);
             hiddenDiv.appendChild(neuron);
@@ -68,8 +74,8 @@ function createNeuron(value) {
 
 // Function to connect layers visually
 function connectLayers(layer1, layer2) {
-    layer1.forEach((neuron1, i) => {
-        layer2.forEach((neuron2, j) => {
+    layer1.forEach((neuron1) => {
+        layer2.forEach((neuron2) => {
             const connection = document.createElement('div');
             connection.className = 'connection';
             const left = neuron1.offsetLeft + 25; // Center of neuron1
