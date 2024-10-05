@@ -16,7 +16,8 @@ function createNeuralNetwork() {
 
     const inputValues = document.getElementById('inputValues').value.split(',').map(Number);
     numHiddenLayers = parseInt(document.getElementById('hiddenLayers').value);
-    
+    const outputNeuronsCount = parseInt(document.getElementById('outputNeurons').value);
+
     // User input for neurons in each hidden layer
     for (let i = 0; i < numHiddenLayers; i++) {
         const neurons = parseInt(prompt(`Enter number of neurons for hidden layer ${i + 1}:`));
@@ -51,9 +52,11 @@ function createNeuralNetwork() {
     const outputDiv = document.createElement('div');
     outputDiv.className = 'layer';
     outputLayer = [];
-    const outputNeuron = createNeuron(0);
-    outputLayer.push(outputNeuron);
-    outputDiv.appendChild(outputNeuron);
+    for (let i = 0; i < outputNeuronsCount; i++) {
+        const outputNeuron = createNeuron(0);
+        outputLayer.push(outputNeuron);
+        outputDiv.appendChild(outputNeuron);
+    }
     animationContainer.appendChild(outputDiv);
 
     // Initialize connections (for visual purposes)
@@ -115,15 +118,16 @@ async function trainNetwork() {
         }
 
         // Simulate output layer activation
-        const outputNeuron = outputLayer[0];
-        const output = (Math.random()).toFixed(2); // Simulated output
-        outputNeuron.innerText = output;
-        outputNeuron.style.borderColor = 'blue'; // Highlight firing neuron
-        await new Promise(resolve => setTimeout(resolve, 100));
-        outputNeuron.style.borderColor = 'white'; // Reset color
+        for (const neuron of outputLayer) {
+            const output = (Math.random()).toFixed(2); // Simulated output
+            neuron.innerText = output;
+            neuron.style.borderColor = 'blue'; // Highlight firing neuron
+            await new Promise(resolve => setTimeout(resolve, 100));
+            neuron.style.borderColor = 'white'; // Reset color
+        }
 
         if (epoch === 9) {
-            outputValue.innerText = output; // Show final output
+            outputValue.innerText = (Math.random()).toFixed(2); // Show final output
         }
     }
 }
