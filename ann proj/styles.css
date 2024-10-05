@@ -1,0 +1,44 @@
+body {
+    background: linear-gradient(135deg, #000, #444);
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.container {
+    padding: 20px;
+}
+
+.layer {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.neuron {
+    width: 50px;
+    height: 50px;
+    border: 2px solid white;
+    border-radius: 50%;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    position: relative;
+    transition: border 0.5s ease;
+}
+
+.connection {
+    position: absolute;
+    width: 2px;
+    background-color: white;
+}
+
+h1, h2 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.output-section {
+    margin-top: 30px;
+}
